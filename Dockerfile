@@ -8,4 +8,4 @@ COPY ./app .
 COPY . .
 EXPOSE 8080
 
-CMD python manage.py migrate && python manage.py initadmin --username ANUJGOYAL4 --password ANUJGOYAL4 --email ANUJGOYAL4@DELOITTE.COM && python manage.py runserver 0.0.0.0:8080
+CMD python manage.py migrate && python manage.py initadmin --username admin --password Test@123 --email aaa@eg.com && python manage.py runserver 0.0.0.0:8080

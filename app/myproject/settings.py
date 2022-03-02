@@ -32,13 +32,12 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    'hu-22-python-anujgoyal4-urtjok3rza-wl.a.run.app',
-    'https://hu-22-python-anujgoyal4-urtjok3rza-wl.a.run.app',
+    'hu-22-python-master-urtjok3rza-wl.a.run.app',
+    'https://hu-22-python-master-urtjok3rza-wl.a.run.app',
     
 ]
 CSRF_TRUSTED_ORIGINS = [
-    'https://hu-22-python-anujgoyal4-urtjok3rza-wl.a.run.app',
-    'https://hu-22-python-master-urtjok3rza-wl.a.run.app'
+    'https://hu-22-python-master-urtjok3rza-wl.a.run.app',
 ]
 
 # Application definition
