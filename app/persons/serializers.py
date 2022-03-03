@@ -25,5 +25,6 @@ class UserSerializer(serializers.ModelSerializer):
 class IssueSerializer(serializers.ModelSerializer):
     class Meta:
         model = Issue
-        field = ['id', 'project', 'description', 'assigned_to', 'priority', 'start_date', 'end_date']
+        field = ['id', 'project', 'description', 'assigned_to', 'type', 'status', 'label', 'priority', 'start_date',
+                 'end_date']
 

@@ -25,6 +25,7 @@ class ProjectView(APIView):
     def get(self, request):
         projects = Project.objects.all()
         response = ProjectSerializer(projects, many=True)
+        # if(Project.id) return Response({"data":})
         return Response({"data": response.data})
 
     def post(self, request):
