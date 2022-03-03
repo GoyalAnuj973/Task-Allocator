@@ -2,6 +2,7 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+from . import serializers
 from .models import Person, Issue, User
 from .serializers import PersonSerializer, IssueSerializer, UserSerializer
 
@@ -56,7 +57,7 @@ class ProjectView(APIView):
 class UserView(APIView):
     def get(self, request):
         users = User.objects.all()
-        response = ProjectSerializer(users, many=True)
+        response = UserSerializer(users, many=True)
         return Response({"data": response.data})
 
     def post(self, request):
@@ -68,10 +69,19 @@ class UserView(APIView):
 
 
 class IssueView(APIView):
-    def get(self, request):
-        issues = Issue.objects.all()
-        response = ProjectSerializer(issues, many=True)
-        return Response({"data": response.data})
+    def get(self, request, project, pk=None):
+
+        # issues = Issue.objects.all()
+        # response = IssueSerializer(issues, many=True)
+        # return Response({"data": response.data})
+        if pk is not None:
+            try:
+                issue = Issue.objects.get(pk=project)
+            except Issue.DoesNotExist:
+                raise Http404
+            serializer = serializers.IssueSerializer(issue)
+            return Response(serializer.data)
+        # return Response({"data": })
 
     def post(self, request):
         data = request.data
