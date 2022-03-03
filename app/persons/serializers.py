@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Person
+from .models import Person, Project, Issue
 
 
 class PersonSerializer(serializers.ModelSerializer):
@@ -8,3 +8,16 @@ class PersonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Person
         fields = "__all__"
+
+
+class ProjectSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Project
+        fields = ['id', 'name', 'description', 'creator', 'noOfTeamMembers', 'priority', 'typeOfProject', 'start_date',
+                  'end_date']
+
+class IssueSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Issue
+        field = ['id', 'project', 'description', 'assigned_to', 'priority', 'start_date', 'end_date']
