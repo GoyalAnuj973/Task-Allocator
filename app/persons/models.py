@@ -30,8 +30,8 @@ class Project(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
 
-    # def __str__(self):
-    #     return self.name
+    def __str__(self):
+        return self.name
 
     pass
 
@@ -41,8 +41,8 @@ class User(models.Model):
     name = models.CharField(max_length=32)
     designation = models.CharField(max_length=32)
 
-    # def __str__(self):
-    #     return self.name
+    def __str__(self):
+        return self.name
 
     pass
 
@@ -62,6 +62,7 @@ Type = (
 class Issue(models.Model):
     id = models.BigAutoField(primary_key=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    # issue_name = models.CharField(max_length=32)
     description = models.CharField(max_length=32)
     assigned_to = models.ForeignKey(User, on_delete=models.CASCADE)
     type = models.CharField(max_length=5, choices=Type)
