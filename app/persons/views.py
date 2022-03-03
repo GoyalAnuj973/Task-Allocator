@@ -79,3 +79,24 @@ class IssueView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=201)
+
+    def put(self, request):
+        id = request.query_params("id")
+        if id is not None:
+            try:
+                issue = Issue.objects.get(id=id)
+            except Exception as e:
+                print(e)
+                return Response({'message': 'The issue does not exist'}, status=404)
+
+        data = request.GET.get('assigned_to')
+        print(data)
+        user = User.objects.get(id=data)
+        print(user)
+        issue.assigned_to = user
+        issue.save()
+        serializer = IssueSerializer(issue)
+        serializer.is_valid(raise_exception=True)
+        print(serializer)
+        serializer.save()
+        return Response(serializer.data, status=201)
