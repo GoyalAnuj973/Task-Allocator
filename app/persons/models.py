@@ -25,14 +25,20 @@ class Project(models.Model):
     end_date = models.DateField()
     pass
 
+class User(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    name = models.CharField(max_length=32)
+    designation = models.CharField(max_length=32)
+    pass
+
 class Issue(models.Model):
     id = models.BigAutoField(primary_key=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     description = models.CharField(max_length=32)
-    assigned_to = models.CharField(max_length=32)
+    assigned_to = models.ForeignKey(User, on_delete=models.CASCADE)
+    # assigned_to = models.CharField(max_length=20)
     priority = models.CharField(max_length=6, choices=Priority)
     start_date = models.DateField()
     end_date = models.DateField()
-
 
 

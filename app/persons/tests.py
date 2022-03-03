@@ -95,6 +95,35 @@ class TestIssues(APITestCase):
     response_data = response.json()
     self.assertEqual(len(response_data.get('data')),3)
 
+class TestUsers(APITestCase):
+  def setUp(self):
+
+    #create test data
+    self.person_1 = Project.objects.create(name="Rhea", age=24)
+    self.person_2 = Project.objects.create(name="Aman", age=24)
+
+  def test_get_users(self):
+
+    response = self.client.get('/api/projects/')
+    self.assertEqual(response.status_code, 200)
+    #the size should be 2
+    response_data = response.json()
+    self.assertEqual(len(response_data.get('data')),2)
+
+  def test_create_new_user(self):
+    response = self.client.post('/api/projects/', {'name': 'User1', 'age': 25})
+    #the new project should be created
+    self.assertEqual(response.status_code, 201)
+    response_data = response.json()
+    #verify that the details are correct
+    self.assertEqual(response_data.get('name'), 'User1')
+    self.assertEqual(response_data.get('age'), 25)
+
+    #now the get api should return 3 people
+    response = self.client.get('/api/projects/')
+    response_data = response.json()
+    self.assertEqual(len(response_data.get('data')),3)
+
 
 
 
