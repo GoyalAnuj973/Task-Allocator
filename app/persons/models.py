@@ -18,6 +18,7 @@ Priority = (
 
 
 class Project(models.Model):
+    # objects = None
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=32)
     description = models.CharField(max_length=32)
@@ -27,6 +28,10 @@ class Project(models.Model):
     typeOfProject = models.CharField(max_length=15)
     start_date = models.DateField()
     end_date = models.DateField()
+
+    def __str__(self):
+        return self.name
+
     pass
 
 
@@ -34,6 +39,10 @@ class User(models.Model):
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=32)
     designation = models.CharField(max_length=32)
+
+    def __str__(self):
+        return self.name
+
     pass
 
 
@@ -60,3 +69,7 @@ class Issue(models.Model):
     priority = models.CharField(max_length=6, choices=Priority)
     start_date = models.DateField()
     end_date = models.DateField()
+
+    def __str__(self):
+        return self.name
+

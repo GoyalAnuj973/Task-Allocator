@@ -50,26 +50,27 @@ class TestProjects(APITestCase):
                                                 end_date="05-03-2022")
 
     def test_get_project(self):
-        response = self.client.get('/api/projects/')
+        response = self.client.get('/api/persons/projects/')
         self.assertEqual(response.status_code, 200)
         # the size should be 2
         response_data = response.json()
         self.assertEqual(len(response_data.get('data')), 2)
 
     def test_create_new_project(self):
-        response = self.client.post('/api/projects/', {'name': "Angular Project", 'description': " this project",
-                                                       'creator': "someone", 'noOfTeamMembers': 2, 'priority': "Low",
-                                                       'typeOfProject': 'Tech', 'start_date': "03-03-2022",
-                                                       'end_date': '05-03-2022'})
+        response = self.client.post('/api/persons/projects/',
+                                    {'name': "Angular Project", 'description': " this project",
+                                     'creator': "someone", 'noOfTeamMembers': 2, 'priority': "Low",
+                                     'typeOfProject': 'Tech', 'start_date': "03-03-2022",
+                                     'end_date': '05-03-2022'})
         # the new project should be created
         self.assertEqual(response.status_code, 201)
         response_data = response.json()
         # verify that the details are correct
-        self.assertEqual(response_data.get('name'), 'Project1')
-        self.assertEqual(response_data.get('noOfTeamMembers'), 3)
+        self.assertEqual(response_data.get('name'), 'Angular Project')
+        self.assertEqual(response_data.get('noOfTeamMembers'), 2)
 
         # now the get api should return 3 people
-        response = self.client.get('/api/projects/')
+        response = self.client.get('/api/persons/projects/')
         response_data = response.json()
         self.assertEqual(len(response_data.get('data')), 3)
 
@@ -78,27 +79,34 @@ class TestProjects(APITestCase):
 class TestIssues(APITestCase):
     def setUp(self):
         # create test data
-        self.person_1 = Project.objects.create(name="Rhea", age=24)
-        self.person_2 = Project.objects.create(name="Aman", age=24)
+        self.person_1 = Project.objects.create(project="Java", description="This project", assigned_to="anuj",
+                                               type="Task", status="Open", label="navbar", priority="High",
+                                               start_date="03-03-2022", end_date="05-03-2022")
+        self.person_2 = Project.objects.create(project="Python", description="This project", assigned_to="user2",
+                                               type="Task", status="Closed", label="navbar", priority="Medium",
+                                               start_date="03-03-2022", end_date="05-03-2022")
 
     def test_get_issue(self):
-        response = self.client.get('/api/projects/')
+        response = self.client.get('/api/issues/')
         self.assertEqual(response.status_code, 200)
         # the size should be 2
         response_data = response.json()
         self.assertEqual(len(response_data.get('data')), 2)
 
     def test_create_new_issue(self):
-        response = self.client.post('/api/projects/', {'name': 'User1', 'age': 25})
+        response = self.client.post('/api/issues/', {'project': 'angular', 'description': "This project",
+                                                     'assigned_to': "user3", 'type': "Task", 'status': "Open",
+                                                     'label': "navbar", 'priority': "High", 'start_date': "03-03-2022",
+                                                     'end_date': "05-03-2022"})
         # the new project should be created
         self.assertEqual(response.status_code, 201)
         response_data = response.json()
         # verify that the details are correct
-        self.assertEqual(response_data.get('name'), 'User1')
-        self.assertEqual(response_data.get('age'), 25)
+        self.assertEqual(response_data.get('project'), 'angular')
+        self.assertEqual(response_data.get('description'), 'This project')
 
         # now the get api should return 3 people
-        response = self.client.get('/api/projects/')
+        response = self.client.get('/api/issues/')
         response_data = response.json()
         self.assertEqual(len(response_data.get('data')), 3)
 
@@ -107,26 +115,26 @@ class TestIssues(APITestCase):
 class TestUsers(APITestCase):
     def setUp(self):
         # create test data
-        self.person_1 = Project.objects.create(name="Rhea", age=24)
-        self.person_2 = Project.objects.create(name="Aman", age=24)
+        self.person_1 = Project.objects.create(name="Rhea", designation="developer")
+        self.person_2 = Project.objects.create(name="Aman", designation="Tester")
 
     def test_get_users(self):
-        response = self.client.get('/api/projects/')
+        response = self.client.get('/api/users/')
         self.assertEqual(response.status_code, 200)
         # the size should be 2
         response_data = response.json()
         self.assertEqual(len(response_data.get('data')), 2)
 
     def test_create_new_user(self):
-        response = self.client.post('/api/projects/', {'name': 'User1', 'age': 25})
+        response = self.client.post('/api/users/', {'name': 'User1', 'designation': 'Tester'})
         # the new project should be created
         self.assertEqual(response.status_code, 201)
         response_data = response.json()
         # verify that the details are correct
         self.assertEqual(response_data.get('name'), 'User1')
-        self.assertEqual(response_data.get('age'), 25)
+        self.assertEqual(response_data.get('designation'), 'Tester')
 
         # now the get api should return 3 people
-        response = self.client.get('/api/projects/')
+        response = self.client.get('/api/users/')
         response_data = response.json()
         self.assertEqual(len(response_data.get('data')), 3)
