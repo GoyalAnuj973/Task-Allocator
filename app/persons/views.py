@@ -1,3 +1,4 @@
+from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -21,12 +22,28 @@ class PersonView(APIView):
         serializer.save()
         return Response(serializer.data, status=201)
 
+
 class ProjectView(APIView):
-    def get(self, request):
-        projects = Project.objects.all()
-        response = ProjectSerializer(projects, many=True)
+    def get(self, request, pk=None, format=None):
+        # projects = Project.objects.all()
+        # response = ProjectSerializer(projects, many=True)
+        if pk is not None:
+            project = self.objects.get(pk=pk)
+            response = ProjectSerializer(project)
         # if(Project.id) return Response({"data":})
+        else:
+            project = Project.objects.all()
+            response = ProjectSerializer(project, many=True)
+
         return Response({"data": response.data})
+
+    # def get_project_by_id(self, request, project_id):
+    #     try:
+    #         project = Project.objects.get(project_id=project_id)
+    #     except Project.DoesNotExist:
+    #         raise Http404
+    #     project.delete()
+    #     return Response(status=status.HTTP_)
 
     def post(self, request):
         data = request.data
@@ -34,6 +51,7 @@ class ProjectView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=201)
+
 
 class UserView(APIView):
     def get(self, request):
@@ -48,6 +66,7 @@ class UserView(APIView):
         serializer.save()
         return Response(serializer.data, status=201)
 
+
 class IssueView(APIView):
     def get(self, request):
         issues = Issue.objects.all()
@@ -60,5 +79,3 @@ class IssueView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=201)
-
-

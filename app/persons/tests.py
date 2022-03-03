@@ -43,11 +43,11 @@ class TestProjects(APITestCase):
         # create test data
         self.project_1 = Project.objects.create(name="Java Project", description="this is a project", creator="Anuj",
                                                 noOfTeamMembers="3", priority="High", typeOfProject="Technology",
-                                                start_date="03-03-2022", end_date="05-03-2022")
+                                                start_date="2022-03-03", end_date="2022-03-05")
         self.project_2 = Project.objects.create(name="Python Project", description="this is a project",
                                                 creator="Anaya", noOfTeamMembers="5", priority="Medium",
-                                                typeOfProject="Technology", start_date="03-03-2022",
-                                                end_date="05-03-2022")
+                                                typeOfProject="Technology", start_date="2022-03-05",
+                                                end_date="2022-03-05")
 
     def test_get_project(self):
         response = self.client.get('/api/persons/projects/')
@@ -60,8 +60,8 @@ class TestProjects(APITestCase):
         response = self.client.post('/api/persons/projects/',
                                     {'name': "Angular Project", 'description': " this project",
                                      'creator': "someone", 'noOfTeamMembers': 2, 'priority': "Low",
-                                     'typeOfProject': 'Tech', 'start_date': "03-03-2022",
-                                     'end_date': '05-03-2022'})
+                                     'typeOfProject': 'Tech', 'start_date': "2022-03-03",
+                                     'end_date': '2022-03-05'})
         # the new project should be created
         self.assertEqual(response.status_code, 201)
         response_data = response.json()
@@ -81,23 +81,24 @@ class TestIssues(APITestCase):
         # create test data
         self.person_1 = Project.objects.create(project="Java", description="This project", assigned_to="anuj",
                                                type="Task", status="Open", label="navbar", priority="High",
-                                               start_date="03-03-2022", end_date="05-03-2022")
+                                               start_date="2022-03-03", end_date="2022-03-05")
         self.person_2 = Project.objects.create(project="Python", description="This project", assigned_to="user2",
                                                type="Task", status="Closed", label="navbar", priority="Medium",
-                                               start_date="03-03-2022", end_date="05-03-2022")
+                                               start_date="2022-03-03", end_date="2022-03-05")
 
     def test_get_issue(self):
-        response = self.client.get('/api/issues/')
+        response = self.client.get('/api/persons/issues/')
         self.assertEqual(response.status_code, 200)
         # the size should be 2
         response_data = response.json()
         self.assertEqual(len(response_data.get('data')), 2)
 
     def test_create_new_issue(self):
-        response = self.client.post('/api/issues/', {'project': 'angular', 'description': "This project",
-                                                     'assigned_to': "user3", 'type': "Task", 'status': "Open",
-                                                     'label': "navbar", 'priority': "High", 'start_date': "03-03-2022",
-                                                     'end_date': "05-03-2022"})
+        response = self.client.post('/api/persons/issues/', {'project': 'angular', 'description': "This project",
+                                                             'assigned_to': "user3", 'type': "Task", 'status': "Open",
+                                                             'label': "navbar", 'priority': "High",
+                                                             'start_date': "2022-03-03",
+                                                             'end_date': "02022-03-05"})
         # the new project should be created
         self.assertEqual(response.status_code, 201)
         response_data = response.json()
@@ -106,7 +107,7 @@ class TestIssues(APITestCase):
         self.assertEqual(response_data.get('description'), 'This project')
 
         # now the get api should return 3 people
-        response = self.client.get('/api/issues/')
+        response = self.client.get('/api/persons/issues/')
         response_data = response.json()
         self.assertEqual(len(response_data.get('data')), 3)
 
@@ -119,14 +120,14 @@ class TestUsers(APITestCase):
         self.person_2 = Project.objects.create(name="Aman", designation="Tester")
 
     def test_get_users(self):
-        response = self.client.get('/api/users/')
+        response = self.client.get('/api/persons/users/')
         self.assertEqual(response.status_code, 200)
         # the size should be 2
         response_data = response.json()
         self.assertEqual(len(response_data.get('data')), 2)
 
     def test_create_new_user(self):
-        response = self.client.post('/api/users/', {'name': 'User1', 'designation': 'Tester'})
+        response = self.client.post('/api/persons/users/', {'name': 'User1', 'designation': 'Tester'})
         # the new project should be created
         self.assertEqual(response.status_code, 201)
         response_data = response.json()
@@ -135,6 +136,6 @@ class TestUsers(APITestCase):
         self.assertEqual(response_data.get('designation'), 'Tester')
 
         # now the get api should return 3 people
-        response = self.client.get('/api/users/')
+        response = self.client.get('/api/persons/users/')
         response_data = response.json()
         self.assertEqual(len(response_data.get('data')), 3)
