@@ -10,6 +10,7 @@ from .models import Project
 from .serializers import ProjectSerializer
 
 
+# View class for persons
 class PersonView(APIView):
     def get(self, request):
         persons = Person.objects.all()
@@ -24,6 +25,7 @@ class PersonView(APIView):
         return Response(serializer.data, status=201)
 
 
+# View class for projects
 class ProjectView(APIView):
     def get(self, request, pk=None, format=None):
         # projects = Project.objects.all()
@@ -54,6 +56,7 @@ class ProjectView(APIView):
         return Response(serializer.data, status=201)
 
 
+# View class for users
 class UserView(APIView):
     def get(self, request):
         users = User.objects.all()
@@ -68,20 +71,35 @@ class UserView(APIView):
         return Response(serializer.data, status=201)
 
 
+# View class for issues
 class IssueView(APIView):
-    def get(self, request, project, pk=None):
+    # def get(self, request, project, pk=None):
+    #
+    #     # issues = Issue.objects.all()
+    #     # response = IssueSerializer(issues, many=True)
+    #     # return Response({"data": response.data})
+    #     if pk is not None:
+    #         try:
+    #             issue = Issue.objects.get(pk=project)
+    #         except Issue.DoesNotExist:
+    #             raise Http404
+    #         serializer = serializers.IssueSerializer(issue)
+    #         return Response(serializer.data)
+    #     # return Response({"data": })
 
-        # issues = Issue.objects.all()
-        # response = IssueSerializer(issues, many=True)
-        # return Response({"data": response.data})
-        if pk is not None:
-            try:
-                issue = Issue.objects.get(pk=project)
-            except Issue.DoesNotExist:
-                raise Http404
-            serializer = serializers.IssueSerializer(issue)
-            return Response(serializer.data)
-        # return Response({"data": })
+    # getting the issues data
+    def get(self, request, project=None, assigned_to=None):
+        if project is not None:
+            issues = Issue.objects.filter(project=project)
+
+        elif assigned_to is not None:
+            issues = Issue.objects.filter(assigned_to=assigned_to)
+
+        else:
+            issues = Issue.objects.all()
+
+        response = IssueSerializer(issues, many=True)
+        return Response(response.data)
 
     def post(self, request):
         data = request.data

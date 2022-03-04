@@ -16,9 +16,26 @@ from rest_framework import routers
 
 urlpatterns = [
     path("", PersonView.as_view()),
+
+    # all projects
     path("projects", ProjectView.as_view()),
+
+    # project by id (pk -> project_id)
+    path("projects/<int:pk>", ProjectView.as_view()),
+
+    # Users
     path("users", UserView.as_view()),
+
+    # Issues
     path("issues", IssueView.as_view()),
+
+    # issues of a project
+    path("issues/project/<int:project>", IssueView.as_view()),
+
+    # all issues of a project id
+    path("issues/assigned_to/<int:assigned_to>", IssueView.as_view()),
+
+
     # path('', include(router.urls)),
 ]
 

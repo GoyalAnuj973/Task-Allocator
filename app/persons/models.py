@@ -12,7 +12,7 @@ class Person(models.Model):
 
 # from django.contrib.auth import get_user_model
 # User = get_user_model()
-
+# Choices field
 Priority = (
     ('H', 'High'),
     ('Medium', 'Medium'),
@@ -50,6 +50,7 @@ class User(models.Model):
     pass
 
 
+# Choices field
 Status = (
     ('O', 'Open'),
     ('I', 'InProgress'),
