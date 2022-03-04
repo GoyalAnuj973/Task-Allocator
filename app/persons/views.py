@@ -97,39 +97,39 @@ class UserView(APIView):
 
 
 # View class for issues
+# class IssueView(APIView):
+#     permission_classes = (IsAuthenticated,)
+#
+#     def get(self, request, project, pk=None):
+#         # issues = Issue.objects.all()
+#         # response = IssueSerializer(issues, many=True)
+#         serializer = PersonSerializer(data=data)
+#         serializer.is_valid(raise_exception=True)
+#         serializer.save()
+#         return Response(serializer.data, status=201)
+
+
+# View class for issues
 class IssueView(APIView):
     permission_classes = (IsAuthenticated,)
 
-    def get(self, request, project, pk=None):
-        # issues = Issue.objects.all()
-        # response = IssueSerializer(issues, many=True)
-        serializer = PersonSerializer(data=data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=201)
-
-
-# View class for projects
-class ProjectView(APIView):
-    permission_classes = (IsAuthenticated,)
-
-    # serializer = UserSerializer(data=data)
-    # serializer.is_valid(raise_exception=True)
-    # serializer.save()
-    # return Response(serializer.data, status=201)
-
-    def get(self, request, pk=None, format=None):
-        # projects = Project.objects.all()
-        # response = ProjectSerializer(projects, many=True)
-        if pk is not None:
-            project = self.objects.get(pk=pk)
-            response = ProjectSerializer(project)
-        # if(Project.id) return Response({"data":})
-        else:
-            project = Project.objects.all()
-            response = ProjectSerializer(project, many=True)
-
-        return Response({"data": response.data})
+    # # serializer = UserSerializer(data=data)
+    # # serializer.is_valid(raise_exception=True)
+    # # serializer.save()
+    # # return Response(serializer.data, status=201)
+    #
+    # def get(self, request, pk=None, format=None):
+    #     # projects = Project.objects.all()
+    #     # response = ProjectSerializer(projects, many=True)
+    #     if pk is not None:
+    #         project = self.objects.get(pk=pk)
+    #         response = ProjectSerializer(project)
+    #     # if(Project.id) return Response({"data":})
+    #     else:
+    #         project = Project.objects.all()
+    #         response = ProjectSerializer(project, many=True)
+    #
+    #     return Response({"data": response.data})
 
     # def get_project_by_id(self, request, project_id):
     #     try:
