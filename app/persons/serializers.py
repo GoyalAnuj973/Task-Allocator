@@ -1,6 +1,12 @@
 from rest_framework import serializers
 
 from .models import Person, Project, User, Issue
+from django.contrib.auth.models import User
+
+# class UsersSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = User
+#         fields = ['username', 'password']
 
 
 class PersonSerializer(serializers.ModelSerializer):
