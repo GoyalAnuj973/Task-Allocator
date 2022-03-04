@@ -1,6 +1,9 @@
 from django.http import Http404
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.pagination import PageNumberPagination
 
 from . import serializers
 from .models import Person, Issue, User
@@ -128,3 +131,24 @@ class IssueView(APIView):
         print(serializer)
         serializer.save()
         return Response(serializer.data, status=201)
+
+
+# Pagination for Issues of Project
+
+class IssueProjectView(APIView):
+
+    @api_view(['GET', ])
+    @permission_classes([AllowAny, ])
+    def get(self, request, project=None):
+        if project is not None:
+            issues = Issue.objects.filter(project=project)
+
+        else:
+            issues = Issue.objects.all()
+
+        paginator = PageNumberPagination()
+        paginator.page_size = 50
+        issues_objects = Issue.objects.all()
+        result_page = paginator.paginate_queryset(issues_objects, request)
+        serializer = IssueSerializer(result_page, many=True)
+        return paginator.get_paginated_response(serializer.data)

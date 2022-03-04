@@ -3,7 +3,7 @@ from xml.etree.ElementInclude import include
 from django.urls import path
 
 # from . import admin
-from .views import PersonView, ProjectView, IssueView, UserView
+from .views import PersonView, ProjectView, IssueView, UserView, IssueProjectView
 from rest_framework import routers
 
 # from .. import persons
@@ -35,6 +35,8 @@ urlpatterns = [
     # all issues of a project id
     path("issues/assigned_to/<int:assigned_to>", IssueView.as_view()),
 
+    # show all issues of a project with pagination
+    path("issues/project/pagination/<int:project>", IssueProjectView.as_view())
 
     # path('', include(router.urls)),
 ]
